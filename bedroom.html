@@ -1,0 +1,76 @@
+<html>
+    <head>
+        <title>Bedroom</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.0.0/p5.js"></script>
+      
+        <script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="style.css">
+
+    </head>
+    <body background="2background.jpg">
+        <center>
+        <h3>Bedroom</h3>
+        <button onclick="goHome()" class="btn btn-success">Home Page</button>
+        <br>
+        <h3 class="btn btn-warning" id="Status"></h3>
+        <br>
+        <label id="objectsDetected"></label>
+        </center>
+
+    <script>
+    Status="";
+    objects=[];
+
+function preload(){
+    img=loadImage('bedroom.jpg');
+}
+function setup(){
+    canvas=createCanvas(600,400);
+    canvas.center;
+    objectDetector=ml5.objectDetector("cocossd", modelLoaded);
+    document.getElementById("Status").innerHTML="Detecting Objects";
+}
+function draw(){
+    image(img, 0, 0, 600, 400);
+    if(status != "")
+    { 
+        for(i = 0; i < objects.length; i ++)
+        { 
+            percent = Math.floor(objects[0].confidence*100);
+            labelText = objects[0].label;
+            bedx = objects[0].x;
+            bedy = objects[0].y;
+            stroke(black);
+            text(labelText + " " + percent + "%", bedx, bedy);
+            rect(bedx, bedy, objects[0].width, objects[0].height);
+        }
+    }
+}
+
+
+function modelLoaded(){
+    console.log("Model Loaded.");
+    Status=true;
+    objectDetector.detect(img, gotResults);
+}
+
+function gotResults(error, results){
+    if(error){
+        console.log(error);
+    }else{
+        console.log(results);
+    }
+    objects=results;
+}
+
+function goHome(){
+    window.location="index.html";
+}
+    </script>
+</body>
+</html>

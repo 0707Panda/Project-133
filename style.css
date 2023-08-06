@@ -1,0 +1,17 @@
+body{
+    background-size: cover;
+    background-color: lavenderblush;
+}
+
+#heading{
+    font-size:40px;
+    color:coral;
+}
+
+canvas{
+    box-shadow: 10px 5px 10px purple;
+    border-radius: 10px;
+    border-color: black;
+    margin-left: 300px;
+
+}
